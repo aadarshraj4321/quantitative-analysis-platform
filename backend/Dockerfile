@@ -1,13 +1,12 @@
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /code
 
-RUN pip install poetry
+RUN apt-get update && apt-get install -y git
 
-COPY pyproject.toml poetry.lock ./
+COPY ./backend/requirements.txt .
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-RUN poetry install --no-root
+COPY ./ml_models /code/sentiment_model
 
-COPY ./backend .
-
-CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+WORKDIR /code/app

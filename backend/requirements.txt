@@ -1,0 +1,25 @@
+fastapi
+uvicorn[standard]
+pydantic-settings
+
+
+sqlalchemy
+psycopg2-binary
+alembic
+
+# task queue
+celery
+redis[redis-stack]
+
+# data agent
+yfinance
+
+# news & sentiment agent
+newspaper3k
+lxml_html_clean
+torch
+transformers
+sentence-transformers
+
+# special install for Twitter scraping
+snscrape@git+https://github.com/JustAnotherArchivist/snscrape.git@master
