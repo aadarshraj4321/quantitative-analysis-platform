@@ -1,14 +1,10 @@
-# --- Secrets ---
-# This is the most important line. Never commit your environment variables.
+
 .env
 
-# --- Python / Backend ---
-# Virtual environment folder (if you create one locally)
 venv/
 ai_env/
 .venv/
 
-# Python cache files and artifacts
 __pycache__/
 *.pyc
 *.pyo
