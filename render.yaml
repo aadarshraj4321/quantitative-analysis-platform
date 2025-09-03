@@ -1,59 +1,61 @@
 services:
-  # The Redis Service
+  # Service 1: The Redis instance for Celery
   - type: redis
-    name: redis
+    name: redis-cache
     plan: free
+    # This is required for security on Render's free plan
+    ipAllowList: []
 
-  # The Backend API Service
+  # Service 2: The Backend FastAPI Web Server
   - type: web
-    name: backend
+    name: backend-api
     plan: free
     env: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: .
-    # Health check to ensure the service is running before accepting traffic
+    # Render's free web services listen on port 10000
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: YOUR_NEON_DB_NAME # You'll replace this
+          name: neon-database # We will create this name in the next step
           property: connectionString
       - key: CELERY_BROKER_URL
         fromService:
           type: redis
-          name: redis
+          name: redis-cache
           property: connectionString
       - key: CELERY_RESULT_BACKEND
         fromService:
           type: redis
-          name: redis
+          name: redis-cache
           property: connectionString
       - key: GOOGLE_API_KEY
-        sync: false # We will set this secret manually
+        sync: false # We will set this secret manually in the UI
 
-  # The Celery Worker Service
+  # Service 3: The Celery Background Worker
   - type: worker
-    name: worker
+    name: celery-worker
     plan: free
     env: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: .
-    # The command to start the worker
-    startCommand: python -m celery -A celery_worker.celery worker --loglevel=info
+    # This command overrides the CMD in the Dockerfile to start the worker
+    dockerCommand: "python -m celery -A celery_worker.celery worker --loglevel=info"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: YOUR_NEON_DB_NAME # You'll replace this
+          name: neon-database # We will create this name in the next step
           property: connectionString
       - key: CELERY_BROKER_URL
         fromService:
           type: redis
-          name: redis
+          name: redis-cache
           property: connectionString
       - key: CELERY_RESULT_BACKEND
         fromService:
           type: redis
-          name: redis
+          name: redis-cache
           property: connectionString
       - key: GOOGLE_API_KEY
         sync: false
