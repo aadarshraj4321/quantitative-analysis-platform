@@ -1,0 +1,59 @@
+services:
+  # The Redis Service
+  - type: redis
+    name: redis
+    plan: free
+
+  # The Backend API Service
+  - type: web
+    name: backend
+    plan: free
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    # Health check to ensure the service is running before accepting traffic
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: YOUR_NEON_DB_NAME # You'll replace this
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: redis
+          property: connectionString
+      - key: GOOGLE_API_KEY
+        sync: false # We will set this secret manually
+
+  # The Celery Worker Service
+  - type: worker
+    name: worker
+    plan: free
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    # The command to start the worker
+    startCommand: python -m celery -A celery_worker.celery worker --loglevel=info
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: YOUR_NEON_DB_NAME # You'll replace this
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: redis
+          property: connectionString
+      - key: GOOGLE_API_KEY
+        sync: false
