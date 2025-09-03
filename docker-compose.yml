@@ -1,5 +1,61 @@
+# services:
+#   # --- Application Services ---
+#   redis:
+#     image: redis:7-alpine
+#     ports:
+#       - "6379:6379"
+#     restart: always
+
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: ./backend/Dockerfile
+#     ports:
+#       - "8000:8000"
+#     volumes:
+#       - ./backend:/code/app
+#     env_file:
+#       - .env
+#     command: python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+#     restart: always
+#     depends_on:
+#       - redis
+
+#   worker:
+#     build:
+#       context: .
+#       dockerfile: ./backend/Dockerfile
+#     volumes:
+#       - ./backend:/code/app
+#     env_file:
+#       - .env
+#     command: python -m celery -A celery_worker.celery worker --loglevel=info
+#     restart: always
+#     depends_on:
+#       - redis
+#       - backend
+
+#   frontend:
+#     build:
+#       context: .
+#       dockerfile: ./frontend/Dockerfile
+#     ports:
+#       - "5173:5173"
+#     volumes:
+#       - ./frontend:/app
+#       - /app/node_modules
+#     restart: always
+#     depends_on:
+#       - backend
+
+
+
+
+
+
+
+
 services:
-  # --- Application Services ---
   redis:
     image: redis:7-alpine
     ports:
@@ -47,6 +103,3 @@ services:
     restart: always
     depends_on:
       - backend
-
-# No other services or volumes are needed.
-# The 'mlflow' service and its 'mlflow_server_data' volume have been completely removed.
