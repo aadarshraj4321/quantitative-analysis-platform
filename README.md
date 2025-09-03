@@ -48,5 +48,44 @@ graph TD
     B -->|13. Read Status/Result| F;
 end
 
-## Local Setup
 
+Local Setup & Installation
+Follow these steps to run the project locally.
+Prerequisites:
+Docker & Docker Compose
+Python 3.10+
+Node.js & npm
+
+
+1. Clone the repository:
+code
+Bash
+git clone https://github.com/your-username/quantitative-analysis-platform.git
+cd quantitative-analysis-platform
+
+
+2. Set up environment variables:
+Create a .env file in the root of the project by copying the example:
+code
+Bash
+cp .env.example .env
+
+
+3. Build and run the services:
+code
+Bash
+docker-compose up --build -d
+
+
+4. Access the applications:
+Frontend: http://localhost:5173
+Backend API Docs: http://localhost:8000/docs
+💡 Key Challenges & Learnings
+Asynchronous Workflow: Building a resilient, multi-stage pipeline with Celery required careful state management and error handling to ensure the process could continue even if one of the scraping agents failed.
+Database Session Management: The most challenging bug was ensuring that the SQLAlchemy database sessions were correctly handled within the forked processes of the Celery workers. The final solution involved a "one task, multiple commits" pattern for maximum reliability.
+AI Prompt Engineering: Crafting the perfect prompt for the Gemini Analyst Agent was an iterative process. It involved structuring the input data and giving the LLM a clear "persona" and a required output format (Markdown) to get consistent, high-quality results.
+
+
+Fill in the Blanks:
+Take a great screenshot of your final, beautiful dashboard and save it in your project. Update the path in the README.md.
+Create a .env.example file in your root directory. Copy your .env file, but remove your actual secret keys and replace them with placeholders like your_key_here. This is a professional standard.
