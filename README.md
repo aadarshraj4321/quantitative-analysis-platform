@@ -41,21 +41,21 @@ This project is built with a modern, scalable, and containerized architecture.
 
 The system is designed as a decoupled, multi-service application orchestrated by Docker Compose.
 graph TD
-    subgraph "User's Browser"
+    "User's Browser"
         A[React Frontend]
-    end
+    
 
-    subgraph "Backend Services (Docker)"
+    "Backend Services (Docker)"
         B(FastAPI Backend API)
         C[Redis Queue]
         D(Celery Worker)
-    end
+   
     
-    subgraph "External Services"
+    "External Services"
         E[(Neon DB)]
         F{Data Sources<br/>(yfinance, Google, Reddit)}
         G{Google AI<br/>(Gemini 1.5 Flash)}
-    end
+    
 
     A -->|1. POST /jobs (ticker)| B;
     B -->|2. Creates Job Record| E;
