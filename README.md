@@ -31,8 +31,6 @@ Retail investors are at a massive disadvantage. They lack the sophisticated tool
 
 
 ### Architecture
-```mermaid
-graph TD
     A[User on React Frontend] -->|1. POST /jobs (ticker)| B(FastAPI Backend);
     B -->|2. Dispatch Task| C[Redis Queue];
     C -->|3. Pick up Job| D(Celery Worker);
@@ -46,7 +44,7 @@ graph TD
     H -->|11. Final Update| F;
     A -->|12. GET /jobs/{id} (Polling)| B;
     B -->|13. Read Status/Result| F;
-end
+
 
 
 Local Setup & Installation
