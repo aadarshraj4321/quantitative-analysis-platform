@@ -1,25 +1,37 @@
+# FastAPI and Server
 fastapi
 uvicorn[standard]
+gunicorn
 pydantic-settings
 
-
+# Database
 sqlalchemy
 psycopg2-binary
 alembic
 
-# task queue
+# Task Queue
 celery
-redis[redis-stack]
+redis
 
-# data agent
+# --- CORE DATA SCIENCE LIBS (PINNING NUMPY) ---
+numpy<2.0 # CRITICAL FIX: Pin numpy to a version compatible with pandas-ta
+pandas
+pandas-ta
+matplotlib
+
+# Data Agent & Prediction
 yfinance
 
-# news & sentiment agent
+# Intelligence Agent
 newspaper3k
 lxml_html_clean
+snscrape@git+https://github.com/JustAnotherArchivist/snscrape.git@master
+requests
+beautifulsoup4
+
+# AI / ML / LLM
 torch
 transformers
 sentence-transformers
-
-# special install for Twitter scraping
-snscrape@git+https://github.com/JustAnotherArchivist/snscrape.git@master
+langchain
+langchain-google-genai
