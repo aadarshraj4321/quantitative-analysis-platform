@@ -1,3 +1,12 @@
+---
+title: Quantitative Analysis Platform
+emoji: 📈
+colorFrom: green
+colorTo: emerald
+sdk: docker
+pinned: false
+---
+
 # Quantitative Analysis Platform
 > A multi-agent AI system designed to provide retail investors with hedge-fund-level research and insights
 
