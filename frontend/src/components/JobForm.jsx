@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Search, LoaderCircle } from 'lucide-react';
 
-// The component now receives 'onAnalyze' and 'isLoading' as props
 function JobForm({ onAnalyze, isLoading }) {
   const [ticker, setTicker] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!ticker.trim() || isLoading) return;
-    onAnalyze(ticker); // Call the function passed down from App.jsx
+    onAnalyze(ticker); 
   };
 
   return (

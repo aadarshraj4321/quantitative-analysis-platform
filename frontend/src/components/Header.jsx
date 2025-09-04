@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bot } from 'lucide-react'; // Using a cool icon
+import { Bot } from 'lucide-react'; 
 
 function Header() {
   return (

@@ -11,14 +11,12 @@ function HistoryPanel({ onSelectJob }) {
     setIsLoading(true);
     getJobsHistory()
       .then(response => {
-        // Filter for only completed jobs to make the list cleaner
         setHistory(response.data.filter(job => job.status === 'SUCCESS' || job.status === 'FAILED'));
       })
       .catch(error => console.error("Failed to fetch history:", error))
       .finally(() => setIsLoading(false));
   };
 
-  // When the panel opens, fetch the history
   const togglePanel = () => {
     const newIsOpen = !isOpen;
     setIsOpen(newIsOpen);
@@ -42,7 +40,6 @@ function HistoryPanel({ onSelectJob }) {
         <History className="w-8 h-8" />
       </button>
 
-      {/* Overlay to close panel when clicking outside */}
       {isOpen && <div onClick={() => setIsOpen(false)} className="fixed inset-0 bg-black/50 z-30 transition-opacity"></div>}
 
       <div className={`fixed top-0 right-0 h-full bg-gray-900 border-l border-gray-700 shadow-2xl z-40 transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} w-full md:w-96`}>

@@ -3,7 +3,6 @@ import { LoaderCircle, CheckCircle2, XCircle, FileClock, Database, Search, Bot }
 
 function JobStatusCard({ job }) {
   const getStatusInfo = (status) => {
-    // This map now perfectly matches the statuses set in your main_task.py
     const statusMap = {
       'PENDING': {
         icon: <FileClock className="w-8 h-8 text-yellow-400" />,

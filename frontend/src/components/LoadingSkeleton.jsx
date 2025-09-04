@@ -1,6 +1,5 @@
 import React from 'react';
 
-// A simple helper for the pulsing effect
 const SkeletonBlock = ({ className }) => (
   <div className={`bg-gray-700 rounded-md animate-pulse ${className}`} />
 );

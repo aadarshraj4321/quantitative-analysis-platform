@@ -11,14 +11,10 @@ def generate_forecast(ticker: str) -> Dict[str, Any]:
     if stock_data.empty:
         return {"error": f"Could not download historical data for {ticker}."}
 
-    # --- THE FINAL, MOST ROBUST FIX FOR THE DATAFRAME ---
-    # 1. Create a new DataFrame with only the columns we need.
     df_prophet = stock_data[['Close']].copy()
-    # 2. Reset the index to turn the 'Date' index into a column.
     df_prophet.reset_index(inplace=True)
     # 3. Rename the columns to what Prophet expects.
     df_prophet.columns = ['ds', 'y']
-    # --- END OF FIX ---
 
     model = Prophet(
         daily_seasonality=False,

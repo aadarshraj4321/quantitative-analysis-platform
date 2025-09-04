@@ -1,8 +1,6 @@
-# test_news.py - Run this to test the news functionality
 from tools.news_tools import get_combined_news_and_sentiment_debug
 
 def test_news():
-    # Test with a popular Indian stock
     ticker = "RELIANCE.NS"
     company_name = "Reliance Industries"
     

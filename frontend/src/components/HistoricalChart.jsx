@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 
-// A more reliable public CORS proxy
 const PROXY_URL = 'https://api.allorigins.win/raw?url=';
 
 const fetchHistoricalData = async (ticker) => {
@@ -15,7 +14,6 @@ const fetchHistoricalData = async (ticker) => {
         const timestamps = data.timestamp;
         const prices = data.indicators.quote[0].close;
 
-        // Filter out any null price points which can crash the chart
         return timestamps
             .map((ts, i) => ({
                 date: new Date(ts * 1000).toLocaleDateString('en-IN', {day: 'numeric', month: 'short'}),

@@ -5,7 +5,6 @@ celery = Celery(
     "quantitative_analysis_platform",
     broker=settings.CELERY_BROKER_URL,
     backend=settings.CELERY_RESULT_BACKEND,
-    # This is the corrected list. We only have one task file now.
     include=[
         "tasks.main_task"
     ]
