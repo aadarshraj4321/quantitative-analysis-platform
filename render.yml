@@ -1,0 +1,66 @@
+# This is the instruction manual for deploying on Render.
+services:
+  # Service 1: The Redis instance for Celery
+  - type: redis
+    name: redis-cache
+    plan: free
+    # This is required for security on Render's free plan
+    ipAllowList: [] # Allows internal connections, blocks public
+
+  # Service 2: The Backend FastAPI Web Server
+  - type: web
+    name: backend-api
+    plan: free
+    env: docker
+    # Tell Render where to find the Dockerfile and the build context
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    # Render's free web services need a health check on port 10000
+    healthCheckPath: /
+    # We need to explicitly tell Render which port our service is on
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: neon-database # We will create this name in the Render UI
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: redis-cache
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: redis-cache
+          property: connectionString
+      - key: GOOGLE_API_KEY
+        sync: false # Set this secret manually in the Render UI
+
+  # Service 3: The Celery Background Worker
+  - type: worker
+    name: celery-worker
+    plan: free
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    # This command overrides the CMD in the Dockerfile to start the worker instead
+    dockerCommand: "python -m celery -A celery_worker.celery worker --loglevel=info"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: neon-database # Must match the name below
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: redis-cache
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: redis-cache
+          property: connectionString
+      - key: GOOGLE_API_KEY
+        sync: false
