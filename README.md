@@ -96,6 +96,11 @@ graph TD
 - Meanwhile, the React frontend polls the API every few seconds, updating the UI with the live status of the pipeline until the final result is ready to be displayed.
 
 
+
+[![Quantitative Analysis Platform Demo](showcase/demo.gif)](https://youtu.be/maiNKW4b9dU)
+
+
+
 ## Local Setup & Installation
 - Follow these steps to run the project locally.
  - Prerequisites:
