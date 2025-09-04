@@ -66,15 +66,13 @@
 
 
 
-
-
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 from uuid import UUID
 from typing import List
-import models.analysis_job as model # Make sure this is db_models, not models
+import models.analysis_job as model
 import schemas
 from core.database import SessionLocal, engine
 from tasks.main_task import run_full_analysis
@@ -86,20 +84,14 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# --- THIS IS THE CRITICAL FIX FOR DEPLOYMENT ---
-# Define the specific domains that are allowed to access our API
-allowed_origins = [
-    "http://localhost:5173", # For your local development
-    "https://quantitative-analysis-platform.vercel.app" # Your live Vercel URL,
-    "quantitative-analysis-platform-git-main-aadarsh-rajs-projects.vercel.app",
-    "quantitative-analysis-platform-o6n52ntyg-aadarsh-rajs-projects.vercel.app",
-]
-
+# --- THIS IS THE FINAL FIX ---
+# This configuration allows your Vercel app and all its preview deployments
+# to communicate with the backend, as well as your local development server.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origin_regex=r"https?://.*\.vercel\.app|http://localhost:5173",
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 # --- END OF FIX ---
