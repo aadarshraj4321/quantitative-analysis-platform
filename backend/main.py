@@ -74,7 +74,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import desc
 from uuid import UUID
 from typing import List
-import db_models.analysis_job as model # Make sure this is db_models, not models
+import models.analysis_job as model # Make sure this is db_models, not models
 import schemas
 from core.database import SessionLocal, engine
 from tasks.main_task import run_full_analysis
@@ -90,7 +90,9 @@ app = FastAPI(
 # Define the specific domains that are allowed to access our API
 allowed_origins = [
     "http://localhost:5173", # For your local development
-    "https://quantitative-analysis-platform.vercel.app" # Your live Vercel URL
+    "https://quantitative-analysis-platform.vercel.app" # Your live Vercel URL,
+    "quantitative-analysis-platform-git-main-aadarsh-rajs-projects.vercel.app",
+    "quantitative-analysis-platform-o6n52ntyg-aadarsh-rajs-projects.vercel.app",
 ]
 
 app.add_middleware(
