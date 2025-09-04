@@ -100,7 +100,6 @@ graph TD
 [![Quantitative Analysis Platform Demo](showcase/demo.gif)](https://youtu.be/maiNKW4b9dU)
 
 
-
 ## Local Setup & Installation
 - Follow these steps to run the project locally.
  - Prerequisites:
