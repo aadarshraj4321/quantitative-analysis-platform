@@ -35,7 +35,6 @@
 
 
 
-
 FROM python:3.11-slim
 
 WORKDIR /code
@@ -49,9 +48,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./ml_models /code/sentiment_model
 
-# Copy the application code last
+# Copy the application code last. All code will live in /code now.
 COPY ./backend .
 
-# This CMD will be used by the web service on Railway.
-# It uses the $PORT variable that Railway provides automatically.
-CMD ["gunicorn", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:${PORT}"]
+# The default command is to start the web server.
+# Render's free web services require port 10000.
+CMD ["gunicorn", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:10000"]
